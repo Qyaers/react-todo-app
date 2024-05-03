@@ -11,11 +11,11 @@ The idea of current project is simple training skills of web development in Reac
 Tasks:
 - Create simple todo list and storage them in localStorage;
 - Make possibility of editing and removing todos;
-- Make filter by data;
+- Make filter by data.
 Current progress:
 - Created todo app what saved and provide tasks from localStorage(from web browser);
 - Added possibility of remove task from tasks;
-- Resolved all syntax errors;
+- Resolved all syntax errors.
 In progress:
 - Creating a feature for editing tasks;
-- Сreating filter of tasks by date;
+- Сreating filter of tasks by date.
