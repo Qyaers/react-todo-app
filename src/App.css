@@ -1,0 +1,11 @@
+#root {
+	min-width: 800px;
+	margin: 0 auto;
+}
+
+.todo-buttons__form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
