@@ -9,7 +9,6 @@ export default function TodoListItem({item,index,handlerRemoveTask}:{item: any,i
 			}} key={index}
 			>
 				<div className="todo-list-item__remove-btn btn" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-					{/* <button value={index} onClick={handlerEditTaskInfo}>Edit</button> */}
 					<button value={index} onClick={handlerRemoveTask}>X</button>
 				</div>
 				<div className="todo-list-item__info" style={{minWidth: "100%", marginRight: "10px"}}>

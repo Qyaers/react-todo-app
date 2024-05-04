@@ -1,7 +1,7 @@
 import TodoListItem from './TodoListItem';
 
 export default function TodoList({data,handlerRemoveTask}:{data:Array<Object>,handlerRemoveTask:any}){
-	
+
 	return (
 		data.length !=0 &&
 		<div className="todo-list">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 import CreateTask from './components/CreateTask';
 import TodoList from './components/TodoList';
@@ -9,11 +9,25 @@ import './App.css'
 export default function App() {
 
 	const [data, setData] = useState<any[]>(['']);
+	const [date, setDate] = useState('');
+	const [dataFiltred,setDataFiltred] = useState(false);
+
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
-	const [date, setDate] = useState('');
 
-	let dataReached = false;
+	let dataReached:Boolean = false;
+	let dateNow:String = new Date().toLocaleDateString().split(".").reverse().join("-");
+	
+	function handlerFilterDataByCurrentDay(){
+
+		if(!dataFiltred){
+			setData(data.filter((item:any) => item.date == dateNow));
+			setDataFiltred(!dataFiltred);
+		} else {
+			getData();
+			setDataFiltred(!dataFiltred);
+		}
+	}
 
 	function getData(){
 		if(!dataReached){			
@@ -60,20 +74,19 @@ export default function App() {
 	}
 
 	function handlerRemoveTask(e:any){
-		console.log(data);
 		data.splice(e.target.value,1);
 		setData([...data])
 	}
-
 
 	return (
 		<>
 			<div>
 				<SaveData data={data}/>
+				<button onClick={handlerFilterDataByCurrentDay}>{dataFiltred?"Отключить фильтр":"Фильторвать по текущей дате"}</button>
 				<CreateTask title={title} text={text} date={date} onSubmit={handlerAddData} onTextChange={handlerTextChange} 
 				onDateChange={handlerDateChange} onTitleChange={handlerTitleChange}/>
 			</div>
-			<TodoList data={data} handlerRemoveTask={handlerRemoveTask}/>
+			<TodoList data={data} handlerRemoveTask={handlerRemoveTask} />
 		</>
 	)
 }
