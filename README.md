@@ -17,7 +17,8 @@ Current progress:
 - Created todo app what saved and provide tasks from localStorage(from web browser);
 - Added possibility of remove task from tasks;
 - Resolved all syntax errors.
+- Сreated filter of tasks by current date.
 
 In progress:
 - Creating a feature for editing tasks;
-- Сreating filter of tasks by date.
+
