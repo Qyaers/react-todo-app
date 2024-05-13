@@ -1,9 +1,8 @@
 # What is this project?
-This project is simple TODO List web app.
-Project present him self like todo list(task list) for one person.
+This project is simple TODO List web app. Project present himself like todo list(task list) for one person.
 
 # React + TypeScript + Vite
-Why React and TS? Just becose i've learn them and trying do better in them.
+Why React and TS? Just because i've learn them and trying be better in them.
 
 # Idea of project
 
