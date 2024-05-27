@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { DataDispatchContext } from "../store/dataContext";
+import { useDataDispatch } from "../store/dataContext";
 
 export default function TodoListItem({item,index}:{item: any,index:Number}){
 	
-	const dispatch:any = useContext(DataDispatchContext);
+	const dispatch:any = useDataDispatch();
 
 	return (
 		<div className="todo-list-item" style={{
@@ -14,7 +13,7 @@ export default function TodoListItem({item,index}:{item: any,index:Number}){
 			}}
 			>
 				<div className="todo-list-item__remove-btn btn" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-					<button onClick={dispatch({type: 'delete',value: index})}>X</button>
+					<button onClick={()=>dispatch({type: 'delete',index: index})}>X</button>
 				</div>
 				<div className="todo-list-item__info" style={{minWidth: "100%", marginRight: "10px"}}>
 					<div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>

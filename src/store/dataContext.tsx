@@ -1,7 +1,7 @@
 import { createContext, useContext,useReducer } from "react";
 
-export const DataContext = createContext(null);
-export const DataDispatchContext = createContext(null);
+export const DataContext:any = createContext(null);
+export const DataDispatchContext:any = createContext(null);
 
 const dateNow:String = new Date().toLocaleDateString().split(".").reverse().join("-");
 
@@ -29,21 +29,22 @@ export function dataReducer(data:any,action:any) {
 	switch (action.type) {
 		case 'add': {
 			console.log(action.type);
-			return [...data, 
+			data = [...data, 
 				{
 					'title': action.title,
 					'text': action.text, 
 					'date': action.date
 				}
-			];
+			]
+			localStorage.setItem("todo-list",JSON.stringify(data));
+			return data;
 		}
 		case 'delete': {
-			return data.splice(action.value,1);
+			return data.filter((item:any) => data.indexOf(item) !=action.index? item:'');
 		}
 		case 'save': {
 			localStorage.setItem("todo-list",JSON.stringify(data));
-			alert("Ваш список задач сохранен");
-			break;
+			return [...data]
 		}
 		case 'filterByDay': {
 			if(action.datafiltred){
@@ -61,10 +62,9 @@ export function dataReducer(data:any,action:any) {
 }
 
 
-function getData():object{
+function getData(){
 	let newData:any = localStorage.getItem("todo-list");
-	newData = JSON.parse(newData);
-	return newData;
+	return JSON.parse(newData);
 }
 
-const initialData:object = getData();
+const initialData = getData();

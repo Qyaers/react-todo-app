@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { DataDispatchContext } from '../store/dataContext';
+import { useDataDispatch } from '../store/dataContext';
 
 export default function CreateTask ()
 {
@@ -9,7 +9,7 @@ export default function CreateTask ()
 	const [text, setText] = useState('');
 	const [date,setDate] = useState('');
 
-	const dispatch:any = useContext(DataDispatchContext);
+	const dispatch:any = useDataDispatch();
 
 	function handlerTextChange(e:any){
 		setText(e.target.value);
@@ -26,7 +26,12 @@ export default function CreateTask ()
 	return (
 		<div className="todo-buttons">
 			<form style={{display: "flex",flexDirection: "column", alignItems: "stretch"}} 
-			className="todo-buttons__form" action="#" onSubmit={dispatch({type: 'add',title1:title,text1:text,date1: date})}>
+			className="todo-buttons__form" action="#" onSubmit={ ()=>{
+					setText('');
+					setTitle('');
+					setDate('');
+					dispatch({type: 'add',"title":title,"text":text,"date": date})}
+				}>
 				<label htmlFor="todo-title">Наименование задачи</label>
 				<input required id='todo-title' type="text" value={title} onChange={handlerTitleChange}/>
 				<label htmlFor="todo-text">Описание задачи</label>
