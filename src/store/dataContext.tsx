@@ -28,7 +28,6 @@ export function useDataDispatch() {
 export function dataReducer(data:any,action:any) {
 	switch (action.type) {
 		case 'add': {
-			console.log(action.type);
 			data = [...data, 
 				{
 					'title': action.title,
@@ -41,6 +40,10 @@ export function dataReducer(data:any,action:any) {
 		}
 		case 'delete': {
 			return data.filter((item:any) => data.indexOf(item) !=action.index? item:'');
+		}
+		case 'edit': {
+			localStorage.setItem("todo-list",JSON.stringify(data));
+			return data;
 		}
 		case 'save': {
 			localStorage.setItem("todo-list",JSON.stringify(data));

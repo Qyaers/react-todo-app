@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useDataDispatch } from '../store/dataContext';
 
 export default function CreateTask ()
