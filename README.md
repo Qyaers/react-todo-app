@@ -17,7 +17,8 @@ Current progress:
 - Added possibility of remove task from tasks;
 - Resolved all syntax errors.
 - Сreated filter of tasks by current date.
+- Created a feature for editing tasks;
 
-In progress:
-- Creating a feature for editing tasks;
+All current tasks done.
+
 
