@@ -1,11 +1,13 @@
 import { useContext } from "react";
-import { DataDispatchContext } from "../store/dataContext";
+import { DataDispatchContext} from "../store/dataContext";
 
 export default function SaveData(){
 
-	const dispatch:any = useContext(DataDispatchContext);
+	const dispatch = useContext(DataDispatchContext);
 
-	function handlerSaveData(){
+	function handlerSaveData():void{
+		if (dispatch === null)
+			throw new Error('Error,cannot dispatch action save. Because useContext(DataDispatchContext) is null.');
 		dispatch({type: 'save'});
 	}
 

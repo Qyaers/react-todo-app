@@ -1,73 +1,85 @@
-import { createContext, useContext,useReducer } from "react";
+import { createContext, Dispatch, useContext, useReducer } from "react";
+//Custom types for actions and data
+export interface TodoItem {
+	title: string;
+	text: string;
+	date: string;
+}
 
-export const DataContext:any = createContext(null);
-export const DataDispatchContext:any = createContext(null);
+export type TodoState = TodoItem[];
 
-const dateNow:String = new Date().toLocaleDateString().split(".").reverse().join("-");
+type Action =
+	| { type: 'add'; title: string; text: string; date: string }
+	| { type: 'delete'; index: number }
+	| { type: 'edit' }
+	| { type: 'save' }
+	| { type: 'filterByDay'; datafiltred: boolean; dateNow?: string };
 
-export function DataProvider({children}:any) {
-	const [data,dispatch] = useReducer(dataReducer,initialData)
+export const DataContext = createContext<TodoState | null>(null);
+export const DataDispatchContext = createContext<Dispatch<Action> | null>(null);
+
+const dateNow: string = new Date().toLocaleDateString().split(".").reverse().join("-");
+
+export function DataProvider({ children }: { children: React.ReactNode }) {
+	const [data, dispatch] = useReducer(dataReducer, getInitialData());
 
 	return (
-		<DataContext.Provider value={data}>
-			<DataDispatchContext.Provider value={dispatch}>
-				{children}
-			</DataDispatchContext.Provider>
-		</DataContext.Provider>
+	<DataContext.Provider value={data}>
+		<DataDispatchContext.Provider value={dispatch}>
+		{children}
+		</DataDispatchContext.Provider>
+	</DataContext.Provider>
 	);
 }
 
-export function useData() {
-	return useContext(DataContext);
+export function useData(): TodoState {
+	const context = useContext(DataContext);
+	if (context === null)
+		throw new Error('useData должен быть использован с DataProvider');
+	return context;
 }
 
-export function useDataDispatch() {
-	return useContext(DataDispatchContext);
+export function useDataDispatch(): Dispatch<Action> {
+	const context = useContext(DataDispatchContext);
+	if (context === null) {
+	throw new Error('useDataDispatch должен быть использован с DataProvider');
+	}
+	return context;
 }
 
-export function dataReducer(data:any,action:any) {
+export function dataReducer(data: TodoState, action: Action): TodoState {
 	switch (action.type) {
 		case 'add': {
-			data = [...data, 
-				{
-					'title': action.title,
-					'text': action.text, 
-					'date': action.date
-				}
-			]
-			localStorage.setItem("todo-list",JSON.stringify(data));
-			return data;
+			const newData = [...data, {
+				title: action.title,
+				text: action.text,
+				date: action.date
+			}];
+			localStorage.setItem("todo-list", JSON.stringify(newData));
+			return newData;
 		}
 		case 'delete': {
-			return data.filter((item:any) => data.indexOf(item) !=action.index? item:'');
+			return data.filter((item) => data.indexOf(item) !=action.index? item:'');
 		}
-		case 'edit': {
-			localStorage.setItem("todo-list",JSON.stringify(data));
-			return data;
-		}
+		case 'edit':
 		case 'save': {
-			localStorage.setItem("todo-list",JSON.stringify(data));
-			return [...data]
+			localStorage.setItem("todo-list", JSON.stringify(data));
+			return [...data];
 		}
 		case 'filterByDay': {
-			if(action.datafiltred){
-				return data.filter((item:any) => item.date == dateNow);
+			if (action.datafiltred) {
+			return data.filter(item => item.date === (action.dateNow || dateNow));
 			}
-			else{
-				data = getData();
-				return [...data]
-			}
+			const savedData = getInitialData();
+			return savedData ? [...savedData] : [];
 		}
 		default: {
-			throw Error('Unknown action: ' + action.type);
+			throw new Error(`Unknown action: ${(action as Action).type}`);
 		}
 	}
 }
 
-
-function getData(){
-	let newData:any = localStorage.getItem("todo-list");
-	return JSON.parse(newData);
+function getInitialData(): TodoState {
+	const data = localStorage.getItem("todo-list");
+	return data ? JSON.parse(data) as TodoItem[] : [];
 }
-
-const initialData = getData();

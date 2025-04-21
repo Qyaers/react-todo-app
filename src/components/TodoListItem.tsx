@@ -1,10 +1,10 @@
-import { useDataDispatch } from "../store/dataContext";
+import { useDataDispatch,TodoItem} from "../store/dataContext";
 import { useState } from "react";
 
-export default function TodoListItem({item,index}:{item: any,index:Number}){
+export default function TodoListItem({item,index}:{item: TodoItem,index:number}){
 	
-	const dispatch:any = useDataDispatch();
-	const [editingData,setEditingData] =useState(false);
+	const dispatch = useDataDispatch();
+	const [editingData,setEditingData] =useState<boolean>(false);
 
 	return (
 		<div className="todo-list-item" style={{
@@ -14,10 +14,9 @@ export default function TodoListItem({item,index}:{item: any,index:Number}){
 			justifyContent: "space-between"
 			}}
 			>
-				{/* TODO: Подправить стили и верстку */}
 				{ !editingData &&
 				<div className="todo-list-item__remove-btn btn" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-					<button onClick={()=>dispatch({type: 'delete',index: index,item})}>Удалить</button>
+					<button onClick={()=>dispatch({type: 'delete',index: index})}>Удалить</button>
 				</div>
 				}
 				<div className="todo-list-item__edit-btn btn" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
